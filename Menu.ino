@@ -61,6 +61,10 @@ void changeMode(){
   mode = option;
 }
 
+void resetMode() {
+  mode = 0;
+}
+
 uint8_t* getMenu(){
   switch(option) {
     case 1:
