@@ -26,6 +26,9 @@ Paint paint(3,3);  // initilize cursor position to (3,3)
 // Mode: 0-Undecided; 1-Tetris; 2-Snake; 3-Paint
 uint8_t mode=0;
 
+// Are we paused?
+uint8_t paused=0;
+
 // Interrupt Variables
 uint8_t interruptCounter2Hz = 0;
 
@@ -57,6 +60,11 @@ ISR(TIMER1_OVF_vect){
 }
 
 void processButtons() {
+  // press and hold brightness down control and press brightness up control to toggle pause
+  if (ht.getButtonHoldTime(BRIGHTNESS_DOWN)>10 && ht.getButtonFirstPress(BRIGHTNESS_UP)) {
+    paused=paused^1;
+  }
+
   // These two buttons are fixed
   if (ht.allowToMove(BRIGHTNESS_DOWN,25,6) && ht.getButtonHoldTime(SELECT)==0) ht.decreaseBrightness();
   if (ht.allowToMove(BRIGHTNESS_UP,25,6) && ht.getButtonHoldTime(SELECT)==0) ht.increaseBrightness();
@@ -143,9 +151,13 @@ void loop(){
     case 0:
       break;
     case 1:
-      tetris.run(); break;
+      if (paused == 0) {
+        tetris.run(); break;
+      }
     case 2:
-      snake.run(); break;
+      if (paused == 0) {
+        snake.run(); break;
+      }
     case 3: 
       ;    
   }
