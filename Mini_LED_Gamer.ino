@@ -97,6 +97,11 @@ void processButtons() {
         if (ht.getButtonFirstPress(SELECT)) tetris.dropPiece();
       }
       else {
+        // when the game is over, use right to switch games
+        if (ht.getButtonFirstPress(RIGHT)) {
+          changeOption(1);
+          resetMode();
+        }
         if (ht.getButtonFirstPress(SELECT)) tetris.init();
       }
       break;
@@ -108,6 +113,15 @@ void processButtons() {
         if (ht.getButtonFirstPress(RIGHT)) snake.changeDirection(1,0);
       }
       else {
+        // when the game is over, use right/left to switch games
+        if (ht.getButtonFirstPress(RIGHT)) {
+          changeOption(1);
+          resetMode();
+        }
+        if (ht.getButtonFirstPress(LEFT)) {
+          changeOption(-1);
+          resetMode();
+        }
         if (ht.getButtonFirstPress(SELECT)) snake.init();
       }
       break;
