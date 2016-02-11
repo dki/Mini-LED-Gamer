@@ -1,5 +1,6 @@
 #include "Tetris.h"
 #include "Tetris_Tetrominoes.h"
+#include "Tetris_Numbers.h"
 
 void Tetris::run(){
   if (gameRunning) {
@@ -47,6 +48,13 @@ void Tetris::init() {
 void Tetris::gameOver() {
   gameRunning=false;
   moveDisabled=true;
+  uint8_t ones = totalLinesCleared % 10;
+  uint8_t tens = (totalLinesCleared - ones) / 10;
+  // display final score!
+  for (uint8_t i = 0; i < 8; i++) {
+    activeTetrisBoard[i] = numbers[tens][i];
+    activeTetrisBoard[i + 8] = numbers[ones][i];
+  }
   Serial.println("Game Over");
 }
 
